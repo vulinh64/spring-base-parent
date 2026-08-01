@@ -1,0 +1,56 @@
+name: Release parent POM
+
+on:
+  push:
+    tags:
+      - "[0-9]*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 25
+          cache: maven
+
+      - name: Prepare release POM
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          chmod +x ./mvnw
+
+          pom_version="$(
+            ./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout 2>/dev/null \
+              | sed -n '/^[0-9][0-9A-Za-z_.-]*$/ { p; q; }'
+          )"
+          tag_version="${GITHUB_REF_NAME#v}"
+
+          if [[ -z "${pom_version}" ]]; then
+            echo "Failed to evaluate project.version from pom.xml."
+            exit 1
+          fi
+
+          if [[ "${GITHUB_REF_TYPE}" == "tag" && "${pom_version}" != "${tag_version}" ]]; then
+            echo "Tag version (${tag_version}) does not match pom.xml version (${pom_version})."
+            exit 1
+          fi
+
+          mkdir -p dist
+          cp pom.xml "dist/spring-base-parent-${pom_version}.pom"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.pom
+          fail_on_unmatched_files: true
