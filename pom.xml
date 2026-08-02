@@ -127,6 +127,12 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
+        <!-- We are to use liquibase for initializing our schemas -->
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+        </dependency>
+
         <!-- Can be useful for testing -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -40,7 +40,7 @@ Declare application-specific Spring Boot and Spring Cloud dependencies in the ch
 
 * Log4j2 `2.26.1` instead of Spring Boot's default Logback logging
 
-* Spring Boot Actuator, Data JPA, and `spring-boot-starter-test` in every child project
+* Spring Boot Actuator, Data JPA, Liquibase and `spring-boot-starter-test` in every child project
 
 * Lombok, MapStruct `1.6.3`, Hibernate static metamodel generation, OpenFeign QueryDSL `7.4.0`, P6Spy `1.12.1`, and Spring Base Commons
 
