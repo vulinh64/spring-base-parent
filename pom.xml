@@ -29,11 +29,11 @@
 
         <!-- Overridable properties -->
 
-        <!-- https://mvnrepository.com/artifact/org.mapstruct/mapstruct -->
+        <!-- https://mvnrepository.com/artifact/org.mapstruct/mapstruct/versions -->
         <mapstruct.version>1.6.3</mapstruct.version>
 
         <!-- The property "querydsl.version" is reserved by Spring, do not use that! -->
-        <!-- https://mvnrepository.com/artifact/io.github.openfeign.querydsl/querydsl-jpa -->
+        <!-- https://mvnrepository.com/artifact/io.github.openfeign.querydsl/querydsl-jpa/versions -->
         <openfeign-querydsl.version>7.4.0</openfeign-querydsl.version>
 
         <!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui -->
@@ -47,6 +47,14 @@
 
         <!-- Optional argLine, can be overridden -->
         <argLine/>
+
+        <!-- CVE fixes, common for all projects -->
+
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3/versions -->
+        <commons-lang3.version>3.20.0</commons-lang3.version>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core/versions -->
+        <log4j2.version>2.26.1</log4j2.version>
     </properties>
 
     <!-- Optional dependencies managed by parent POM -->
@@ -65,6 +73,15 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/io.github.openfeign.querydsl/querydsl-bom/versions -->
+            <dependency>
+                <groupId>io.github.openfeign.querydsl</groupId>
+                <artifactId>querydsl-bom</artifactId>
+                <version>${openfeign-querydsl.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -104,11 +121,19 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
+        <!-- All projects are JPA, so this makes sense -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <!-- Can be useful for testing -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -127,7 +152,6 @@
         <dependency>
             <groupId>io.github.openfeign.querydsl</groupId>
             <artifactId>querydsl-jpa</artifactId>
-            <version>${openfeign-querydsl.version}</version>
         </dependency>
     </dependencies>
 

@@ -38,15 +38,31 @@ Declare application-specific Spring Boot and Spring Cloud dependencies in the ch
 
 * Spring Base Commons `3.1.0`
 
-* Log4j2 instead of Spring Boot's default Logback logging
+* Log4j2 `2.26.1` instead of Spring Boot's default Logback logging
 
-* Spring Boot Actuator and `spring-boot-starter-test` in every child project
+* Spring Boot Actuator, Data JPA, and `spring-boot-starter-test` in every child project
 
-* Lombok, MapStruct, Hibernate static metamodel generation, OpenFeign QueryDSL, P6Spy, and Spring Base Commons
+* Lombok, MapStruct `1.6.3`, Hibernate static metamodel generation, OpenFeign QueryDSL `7.4.0`, P6Spy `1.12.1`, and Spring Base Commons
+
+* Spring Cloud Dependencies `2025.0.3` (BOM import)
+
+* Commons Lang3 `3.20.0` and springdoc-openapi-starter-webmvc-ui `2.8.17` for optional use
+
+* Spring Boot Maven Plugin with opinionated build configuration
+
+* Maven Surefire and Failsafe plugins with Mockito and Byte Buddy agents for testing (required by JDK 25)
+
+### CVE fixes
+
+This parent manages versions for libraries that address known security vulnerabilities shared across all projects:
+
+* Commons Lang3 `3.20.0`
+
+* Log4j2 `2.26.1`
 
 The Maven compiler configuration enables the corresponding annotation processors. Test execution is also opinionated: Surefire runs `*Test.java`, while Failsafe runs `*IT.java`; both use the configured Mockito and Byte Buddy agents.
 
-### Additional annotation processors
+### Application-specific annotation processors
 
 Do not copy the parent compiler-plugin configuration. To add an application-specific processor, configure `maven-compiler-plugin` in the child POM and append its path to the inherited list:
 
@@ -104,7 +120,7 @@ This keeps the parent-provided Mockito and Byte Buddy agents. Overriding the plu
 
 ## Managed dependencies
 
-This parent imports the Spring Cloud BOM at version `2025.0.3` and manages `springdoc-openapi-starter-webmvc-ui` at version `2.8.17`.
+This parent imports the Spring Cloud BOM at version `2025.0.3`, the OpenFeign QueryDSL BOM at version `7.4.0`, and manages `springdoc-openapi-starter-webmvc-ui` at version `2.8.17`.
 
 ### Version overrides
 
@@ -113,18 +129,18 @@ The version properties declared by this parent are defaults. A child POM can red
 ```xml
 <properties>
     <spring-cloud.version>2025.0.4</spring-cloud.version>
-    <mapstruct.version>1.6.4</mapstruct.version>
+    <mapstruct.version>1.6.3</mapstruct.version>
 </properties>
 ```
 
-This applies to the properties declared in this POM, including `java.version`, `spring-base-commons.version`, `spring-cloud.version`, `mapstruct.version`, `openfeign-querydsl.version`, `springdoc-openapi.version`, and `p6spy-springboot.version`. Use an override only after confirming compatibility with the selected Spring Boot and Spring Cloud releases. Dependencies managed solely by the Spring Boot parent or imported Spring Cloud BOM should generally remain versionless in child POMs.
+This applies to the properties declared in this POM, including `java.version`, `spring-base-commons.version`, `spring-cloud.version`, `mapstruct.version`, `openfeign-querydsl.version`, `springdoc-openapi.version`, `p6spy-springboot.version`, `log4j2.version`, and `commons-lang3.version`. Use an override only after confirming compatibility with the selected Spring Boot and Spring Cloud releases. Dependencies managed solely by the Spring Boot parent or imported Spring Cloud BOM should generally remain versionless in child POMs.
 
 The Spring Cloud BOM provides the version for Spring Cloud starters. For example, applications can declare the RabbitMQ-backed Spring Cloud Bus starter without a version:
 
 ```xml
 <dependency>
     <groupId>org.springframework.cloud</groupId>
-    <artifactId>spring-cloud-starter-bus-amqp</artifactId>
+    <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
 </dependency>
 ```
 
