@@ -6,21 +6,21 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.1.0</version>
+        <version>4.1.1</version>
         <relativePath/>
     </parent>
 
     <groupId>com.vulinh</groupId>
     <artifactId>spring-base-parent</artifactId>
     <name>spring-base-parent</name>
-    <version>2.0.1</version>
+    <version>2.0.2</version>
     <packaging>pom</packaging>
 
     <properties>
         <java.version>25</java.version>
 
         <!-- https://github.com/vulinh64/spring-base-commons/releases -->
-        <spring-base-commons.version>4.0.1</spring-base-commons.version>
+        <spring-base-commons.version>4.0.2</spring-base-commons.version>
 
         <!-- Spring-specific properties -->
 
@@ -34,7 +34,7 @@
 
         <!-- The property "querydsl.version" is reserved by Spring, do not use that! -->
         <!-- https://mvnrepository.com/artifact/io.github.openfeign.querydsl/querydsl-bom/versions -->
-        <openfeign-querydsl.version>7.5</openfeign-querydsl.version>
+        <openfeign-querydsl.version>7.6</openfeign-querydsl.version>
 
         <!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui -->
         <springdoc-openapi.version>3.1.0</springdoc-openapi.version>
@@ -44,8 +44,15 @@
 
         <!-- Maven properties -->
         <maven.compiler.release>${java.version}</maven.compiler.release>
+
+        <!-- https://mvnrepository.com/artifact/com.spotify.fmt/fmt-maven-plugin/versions -->
         <fmt-maven-plugin.version>2.29</fmt-maven-plugin.version>
+
+        <!-- https://mvnrepository.com/artifact/com.google.googlejavaformat/google-java-format/versions -->
         <google-java-format.version>1.36.1</google-java-format.version>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-collections4/versions -->
+        <commons-collections4.version>4.6.0</commons-collections4.version>
 
         <!-- Optional argLine, can be overridden -->
         <argLine/>
@@ -143,6 +150,11 @@
         <dependency>
             <groupId>io.github.openfeign.querydsl</groupId>
             <artifactId>querydsl-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>${commons-collections4.version}</version>
         </dependency>
     </dependencies>
 
