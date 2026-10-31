@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.1.1</version>
+        <version>4.1.2</version>
         <relativePath/>
     </parent>
 
@@ -20,12 +20,12 @@
         <java.version>25</java.version>
 
         <!-- https://github.com/vulinh64/spring-base-commons/releases -->
-        <spring-base-commons.version>4.0.2</spring-base-commons.version>
+        <spring-base-commons.version>4.0.3</spring-base-commons.version>
 
         <!-- Spring-specific properties -->
 
         <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-dependencies/versions -->
-        <spring-cloud.version>2025.1.2</spring-cloud.version>
+        <spring-cloud.version>2025.1.4</spring-cloud.version>
 
         <!-- Overridable properties -->
 
@@ -34,10 +34,10 @@
 
         <!-- The property "querydsl.version" is reserved by Spring, do not use that! -->
         <!-- https://mvnrepository.com/artifact/io.github.openfeign.querydsl/querydsl-bom/versions -->
-        <openfeign-querydsl.version>7.6</openfeign-querydsl.version>
+        <openfeign-querydsl.version>7.7</openfeign-querydsl.version>
 
         <!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui -->
-        <springdoc-openapi.version>3.1.0</springdoc-openapi.version>
+        <springdoc-openapi.version>3.2.0</springdoc-openapi.version>
 
         <!-- https://mvnrepository.com/artifact/com.github.gavlyukovskiy/p6spy-spring-boot-starter -->
         <p6spy-springboot.version>2.0.1</p6spy-springboot.version>
@@ -49,7 +49,7 @@
         <fmt-maven-plugin.version>2.29</fmt-maven-plugin.version>
 
         <!-- https://mvnrepository.com/artifact/com.google.googlejavaformat/google-java-format/versions -->
-        <google-java-format.version>1.36.1</google-java-format.version>
+        <google-java-format.version>1.37.0</google-java-format.version>
 
         <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-collections4/versions -->
         <commons-collections4.version>4.6.0</commons-collections4.version>
