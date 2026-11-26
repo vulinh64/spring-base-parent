@@ -24,7 +24,7 @@ Use this artifact as the parent of an application POM:
 <parent>
     <groupId>com.vulinh</groupId>
     <artifactId>spring-base-parent</artifactId>
-    <version>1.0.0</version>
+    <version>2.0.5</version>
 </parent>
 ```
 
@@ -32,35 +32,51 @@ Declare application-specific Spring Boot and Spring Cloud dependencies in the ch
 
 ## Baseline
 
-* Spring Boot `3.5.16`
+* Spring Boot `4.1.3`
 
 * Java `25`
 
-* Spring Base Commons `3.1.0`
+* Spring Base Commons `4.0.5`
 
-* Log4j2 `2.26.1` instead of Spring Boot's default Logback logging
+* Log4j2 (`spring-boot-starter-log4j2`) instead of Spring Boot's default Logback logging; `spring-boot-starter-logging` is excluded from the managed `spring-boot-starter`
 
-* Spring Boot Actuator, Data JPA, Liquibase and `spring-boot-starter-test` in every child project
+* Spring Boot Actuator, Data JPA, and Liquibase in every child project
 
-* Lombok, MapStruct `1.6.3`, Hibernate static metamodel generation, OpenFeign QueryDSL `7.4.0`, P6Spy `1.12.1`, and Spring Base Commons
+* Lombok, MapStruct `1.6.3`, Hibernate static metamodel generation, OpenFeign QueryDSL `7.7`, P6Spy `2.0.1`, Commons Collections4 `4.6.0`, and Spring Base Commons
 
-* Spring Cloud Dependencies `2025.0.3` (BOM import)
+* Spring Cloud Dependencies `2025.1.5` (BOM import)
 
-* Commons Lang3 `3.20.0` and springdoc-openapi-starter-webmvc-ui `2.8.17` for optional use
+* springdoc-openapi-starter-webmvc-ui `3.2.1` for optional use
 
 * Spring Boot Maven Plugin with opinionated build configuration
 
+* `fmt-maven-plugin` `2.29` with google-java-format `2.0.0`, which formats Java sources on every build
+
 * Maven Surefire and Failsafe plugins with Mockito and Byte Buddy agents for testing (required by JDK 25)
 
-### CVE fixes
-
-This parent manages versions for libraries that address known security vulnerabilities shared across all projects:
-
-* Commons Lang3 `3.20.0`
-
-* Log4j2 `2.26.1`
-
 The Maven compiler configuration enables the corresponding annotation processors. Test execution is also opinionated: Surefire runs `*Test.java`, while Failsafe runs `*IT.java`; both use the configured Mockito and Byte Buddy agents.
+
+### Test dependencies
+
+This parent does not add `spring-boot-starter-test`. Child projects declare it themselves, without a version:
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-test</artifactId>
+    <scope>test</scope>
+</dependency>
+```
+
+The Surefire and Failsafe agents point at the Mockito and Byte Buddy agent JARs in the local Maven repository, using the `mockito.version` and `byte-buddy.version` properties managed by Spring Boot. These JARs are present once the test starter has been resolved.
+
+### Code formatting
+
+The `fmt-maven-plugin` runs its `format` goal during the build and rewrites Java sources with google-java-format. Commit the formatted result. To skip formatting for a single build, pass `-Dfmt.skip`:
+
+```shell
+./mvnw verify -Dfmt.skip
+```
 
 ### Application-specific annotation processors
 
@@ -120,7 +136,7 @@ This keeps the parent-provided Mockito and Byte Buddy agents. Overriding the plu
 
 ## Managed dependencies
 
-This parent imports the Spring Cloud BOM at version `2025.0.3`, the OpenFeign QueryDSL BOM at version `7.4.0`, and manages `springdoc-openapi-starter-webmvc-ui` at version `2.8.17`.
+This parent imports the Spring Cloud BOM at version `2025.1.5` and the OpenFeign QueryDSL BOM at version `7.7`, and manages `springdoc-openapi-starter-webmvc-ui` at version `3.2.1`.
 
 ### Version overrides
 
@@ -128,14 +144,15 @@ The version properties declared by this parent are defaults. A child POM can red
 
 ```xml
 <properties>
-    <spring-cloud.version>2025.0.4</spring-cloud.version>
-    <mapstruct.version>1.6.3</mapstruct.version>
+    <spring-cloud.version>2025.1.6</spring-cloud.version>
 </properties>
 ```
 
-This applies to the properties declared in this POM, including `java.version`, `spring-base-commons.version`, `spring-cloud.version`, `mapstruct.version`, `openfeign-querydsl.version`, `springdoc-openapi.version`, `p6spy-springboot.version`, `log4j2.version`, and `commons-lang3.version`. Use an override only after confirming compatibility with the selected Spring Boot and Spring Cloud releases. Dependencies managed solely by the Spring Boot parent or imported Spring Cloud BOM should generally remain versionless in child POMs.
+This applies to the properties declared in this POM: `java.version`, `spring-base-commons.version`, `spring-cloud.version`, `mapstruct.version`, `openfeign-querydsl.version`, `springdoc-openapi.version`, `p6spy-springboot.version`, `commons-collections4.version`, `fmt-maven-plugin.version`, and `google-java-format.version`. Use an override only after confirming compatibility with the selected Spring Boot and Spring Cloud releases. Dependencies managed solely by the Spring Boot parent or imported Spring Cloud BOM should generally remain versionless in child POMs.
 
-The Spring Cloud BOM provides the version for Spring Cloud starters. For example, applications can declare the RabbitMQ-backed Spring Cloud Bus starter without a version:
+Do not use the `querydsl.version` property for QueryDSL; Spring Boot reserves it. Override `openfeign-querydsl.version` instead.
+
+The Spring Cloud BOM provides the version for Spring Cloud starters. For example, applications can declare the RabbitMQ binder for Spring Cloud Stream without a version:
 
 ```xml
 <dependency>
